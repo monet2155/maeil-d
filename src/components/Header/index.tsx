@@ -14,7 +14,9 @@ export default function Header() {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
         console.log(user);
-        setUserName(user.displayName);
+        if (user && user.displayName) {
+          setUserName(user.displayName);
+        }
         if (credential) {
           const token = credential.accessToken;
           console.log(token);
