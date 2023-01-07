@@ -33,7 +33,7 @@ export default function TopicListPage() {
           <ul className="flex flex-row flex-wrap gap-2 p-4">
             {topics.map((topic) => (
               <li key={topic.id} className="p-5 rounded-lg shadow-lg">
-                <Link href={`topic/detail/${topic.id}`}>
+                <Link href={`/topic/detail/${topic.id}`}>
                   <div className="flex flex-col">
                     <h1>{topic.name}</h1>
                     <div className="my-4 h-[1px] bg-black" />
