@@ -9,13 +9,15 @@ export default function TopicListPage() {
   const [topics, setTopics] = useState<Topic[]>([]);
 
   useEffect(() => {
-    getTopicList().then((res) => {
-      setTopics(
-        res.docs.map((data: any) => {
-          return { ...data.data(), id: data.id };
-        })
-      );
-    });
+    getTopicList()
+      .then((res) => {
+        setTopics(
+          res.docs.map((data: any) => {
+            return { ...data.data(), id: data.id };
+          })
+        );
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (
