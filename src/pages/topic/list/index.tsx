@@ -3,6 +3,7 @@ import Header from "@components/Header";
 import Head from "next/head";
 import { getTopicList } from "@apis/topics";
 import { Topic } from "src/@types/topic";
+import Link from "next/link";
 
 export default function TopicListPage() {
   const [topics, setTopics] = useState<Topic[]>([]);
@@ -29,10 +30,16 @@ export default function TopicListPage() {
         <Header />
         <div>주제 목록</div>
         <div>
-          <ul>
+          <ul className="flex flex-row flex-wrap gap-2 p-4">
             {topics.map((topic) => (
-              <li key={topic.id}>
-                <div>{topic.name}</div>
+              <li key={topic.id} className="p-5 rounded-lg shadow-lg">
+                <Link href={`topic/detail/${topic.id}`}>
+                  <div className="flex flex-col">
+                    <h1>{topic.name}</h1>
+                    <div className="my-4 h-[1px] bg-black" />
+                    <div>{topic.description}</div>
+                  </div>
+                </Link>
               </li>
             ))}
           </ul>
