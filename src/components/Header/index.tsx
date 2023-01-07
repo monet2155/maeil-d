@@ -34,7 +34,10 @@ export default function Header() {
   return (
     <header className="flex flex-row justify-between p-10 bg-sky-300">
       <nav>
-        <ul>
+        <ul className="flex flex-row gap-5">
+          <li>
+            <Link href="/">홈</Link>
+          </li>
           <li>
             <Link href="/topic/list">주제</Link>
           </li>
