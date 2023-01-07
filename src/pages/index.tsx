@@ -1,3 +1,4 @@
+import Header from "@components/Header";
 import Head from "next/head";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <Header />
         <div>매일디에 오신 것을 환영합니다.</div>
       </main>
     </>
