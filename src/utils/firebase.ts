@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCiLALd1PZPxYgOKPFGW9XLafPk7zSY_O0",
-  authDomain: "maeil-d.firebaseapp.com",
-  projectId: "maeil-d",
-  storageBucket: "maeil-d.appspot.com",
-  messagingSenderId: "844098518931",
-  appId: "1:844098518931:web:0d7a61c6d39f8f0221f266",
-  measurementId: "G-RXDCQRPY80",
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 
 export const app = initializeApp(firebaseConfig);
