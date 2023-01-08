@@ -4,4 +4,6 @@ export type Design = {
   userName: string;
   topicId: string;
   description: string;
+
+  figmaUrl: string;
 };

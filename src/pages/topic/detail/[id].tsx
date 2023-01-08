@@ -6,6 +6,7 @@ import { getTopicDetail } from "@apis/topics";
 import { useRouter } from "next/router";
 import { getDesignListByTopicId } from "@apis/designs";
 import { Design } from "src/@types/design";
+import Link from "next/link";
 
 export default function TopicDetailPage() {
   const router = useRouter();
@@ -53,10 +54,12 @@ export default function TopicDetailPage() {
             {designs.map((design) => (
               <li
                 key={design.id}
-                className="flex flex-col p-5 rounded-lg shadow-lg"
+                className="flex flex-col rounded-lg shadow-lg"
               >
-                <div>{design.userName}</div>
-                <div>{design.description}</div>
+                <Link className="p-5" href={`/design/detail/${design.id}`}>
+                  <div>{design.userName}</div>
+                  <div>{design.description}</div>
+                </Link>
               </li>
             ))}
           </ul>
