@@ -32,7 +32,6 @@ export default function DesignDetailPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Header />
         <div>
           <h1>{currentDesign?.userName}님의 디자인</h1>
           <div className="relative">

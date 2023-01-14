@@ -29,7 +29,6 @@ export default function TopicListPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Header />
         <div>주제 목록</div>
         <div>
           <ul className="flex flex-row flex-wrap gap-2 p-4">

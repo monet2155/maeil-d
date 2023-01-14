@@ -45,7 +45,6 @@ export default function TopicDetailPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Header />
         <h1>{currentTopic?.name}</h1>
         <div>{currentTopic?.description}</div>
         <h1>이 주제의 디자인 작업물</h1>
