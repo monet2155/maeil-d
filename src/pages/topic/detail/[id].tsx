@@ -44,9 +44,18 @@ export default function TopicDetailPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <h1>{currentTopic?.name}</h1>
-        <div>{currentTopic?.description}</div>
+      <main className="p-5">
+        <div className="flex flex-row justify-between">
+          <div>
+            <h1>{currentTopic?.name}</h1>
+            <div>{currentTopic?.description}</div>
+          </div>
+          <Link href="/design/upload">
+            <button className="p-5 rounded-lg shadow-lg">
+              이 주제로 디자인 업로드 하기
+            </button>
+          </Link>
+        </div>
         <h1>이 주제의 디자인 작업물</h1>
         <div>
           <ul className="flex flex-row flex-wrap gap-2 p-4">
