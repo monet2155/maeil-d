@@ -30,7 +30,7 @@ export default function TopicDetailPage() {
     if (!id) return;
     getTopicDetail(id.toString())
       .then((res) => {
-        setCurrentTopic(res.data() as Topic);
+        setCurrentTopic({ ...res.data(), id: res.id } as Topic);
         getDesigns();
       })
       .catch((err) => console.log(err));
@@ -50,11 +50,14 @@ export default function TopicDetailPage() {
             <h1>{currentTopic?.name}</h1>
             <div>{currentTopic?.description}</div>
           </div>
-          <Link href="/design/upload">
-            <button className="p-5 rounded-lg shadow-lg">
-              이 주제로 디자인 업로드 하기
-            </button>
-          </Link>
+
+          {currentTopic && (
+            <Link href={`/design/upload?topic=${currentTopic.id}`}>
+              <button className="p-5 rounded-lg shadow-lg">
+                이 주제로 디자인 업로드 하기
+              </button>
+            </Link>
+          )}
         </div>
         <h1>이 주제의 디자인 작업물</h1>
         <div>
