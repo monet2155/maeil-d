@@ -4,6 +4,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { getTopicList } from "@apis/topics";
 import { Topic } from "src/@types/topic";
+import { uploadDesign } from "@apis/designs";
+import { useAtom } from "jotai";
+import { userAtom } from "@store";
 
 export default function DesignUploadPage() {
   const router = useRouter();
@@ -13,6 +16,9 @@ export default function DesignUploadPage() {
   const [selectedTopic, setSelectedTopic] = useState<string>(
     topic ? topic.toString() : ""
   );
+  const [figmaUrl, setFigmaUrl] = useState("");
+  const [description, setDescription] = useState("");
+  const [user] = useAtom(userAtom);
 
   useEffect(() => {
     getTopicList()
@@ -26,8 +32,31 @@ export default function DesignUploadPage() {
       .catch((err) => console.log(err));
   }, []);
 
-  const onChangeTopic = (id: string) => {
-    setSelectedTopic(id);
+  const onClickUpload = () => {
+    if (selectedTopic == "") {
+      alert("토픽을 선택해주세요.");
+      return;
+    }
+
+    if (figmaUrl == "") {
+      alert("Figma Url을 입력해주세요.");
+      return;
+    }
+
+    if (!user) return;
+
+    uploadDesign({
+      description,
+      topicId: selectedTopic,
+      userId: user.id,
+      userName: user.name,
+      figmaUrl,
+    })
+      .then((res) => {
+        alert("업로드 되었습니다.");
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -39,18 +68,36 @@ export default function DesignUploadPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <select onChange={(e) => onChangeTopic(e.target.value)}>
-          <option>토픽</option>
-          {topics.map((ele) => (
-            <option
-              key={ele.id}
-              value={ele.id}
-              selected={ele.id == selectedTopic}
-            >
-              {ele.name}
-            </option>
-          ))}
-        </select>
+        <section className="flex flex-col">
+          <select
+            value={selectedTopic}
+            onChange={(e) => setSelectedTopic(e.target.value)}
+          >
+            <option value="">토픽</option>
+            {topics.map((ele) => (
+              <option key={ele.id} value={ele.id}>
+                {ele.name}
+              </option>
+            ))}
+          </select>
+
+          <h3>후기</h3>
+          <textarea
+            className="w-1/2 border"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+
+          <h3>Figma 주소</h3>
+          <textarea
+            className="w-1/2 border"
+            value={figmaUrl}
+            onChange={(e) => setFigmaUrl(e.target.value)}
+          />
+        </section>
+        <button className="p-5 rounded-lg shadow-lg" onClick={onClickUpload}>
+          업로드
+        </button>
       </main>
     </>
   );
