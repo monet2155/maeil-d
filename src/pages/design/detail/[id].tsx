@@ -34,7 +34,7 @@ export default function DesignDetailPage() {
       <main>
         <div>
           <h1>{currentDesign?.userName}님의 디자인</h1>
-          <div className="relative">
+          <div className="relative max-h-[402px] overflow-hidden">
             {currentDesign?.figmaUrl && (
               <iframe
                 src={convertFigmaIframeUrl(currentDesign.figmaUrl)}
@@ -42,7 +42,6 @@ export default function DesignDetailPage() {
                 width="800"
               />
             )}
-            <div className="h-[48px] absolute bottom-0 w-full bg-white" />
           </div>
           <h1>후기</h1>
           <div>{currentDesign?.description}</div>
