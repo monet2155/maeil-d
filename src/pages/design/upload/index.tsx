@@ -49,8 +49,8 @@ export default function DesignUploadPage() {
     uploadDesign({
       description,
       topicId: selectedTopic,
-      userId: user.id,
-      userName: user.name,
+      userId: user.uid,
+      userName: user.displayName,
       figmaUrl,
     })
       .then((res) => {
