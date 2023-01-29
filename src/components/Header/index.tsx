@@ -4,8 +4,11 @@ import { app } from "src/utils/firebase";
 import { useState } from "react";
 import { userAtom } from "@store";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 
 export default function Header() {
+  const router = useRouter();
+
   const [userName, setUserName] = useState("");
   const [user, setUser] = useAtom(userAtom);
 
@@ -30,6 +33,11 @@ export default function Header() {
       });
   };
 
+  const onClickLogout = () => {
+    setUser(null);
+    router.replace("/");
+  };
+
   return (
     <header className="flex flex-row justify-between p-10 bg-sky-300">
       <nav>
@@ -46,6 +54,7 @@ export default function Header() {
         <div className="flex flex-row gap-4">
           <div>{user.name}님</div>
           <Link href="/mypage">마이페이지</Link>
+          <button onClick={onClickLogout}>로그아웃</button>
         </div>
       ) : (
         <button onClick={() => onClickLogin()}>로그인</button>
