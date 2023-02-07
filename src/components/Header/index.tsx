@@ -24,12 +24,13 @@ export default function Header() {
                 setUser({
                   uid: userDoc.id,
                   displayName: userDoc.data().displayName,
+                  email: userDoc.data().email,
                 });
               } else {
                 router.push(
                   {
                     pathname: "/welcome",
-                    query: { uid: result.user.uid },
+                    query: { uid: result.user.uid, email: result.user.email },
                   },
                   "/welcome"
                 );

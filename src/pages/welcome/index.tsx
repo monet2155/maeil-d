@@ -18,17 +18,19 @@ export default function MyPage() {
       return;
     }
 
-    if (!router.query.uid) {
+    if (!router.query.uid || !router.query.email) {
       return;
     }
 
     let uid = router.query.uid.toString();
+    let email = router.query.email.toString();
 
-    createUser(router.query.uid.toString(), displayName)
+    createUser(uid, displayName, email)
       .then((result) => {
         setUser({
           uid,
           displayName: displayName,
+          email,
         });
         router.replace("/");
       })

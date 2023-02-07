@@ -17,6 +17,6 @@ export function getUserDetail(uid: string) {
   return getDoc(currentField);
 }
 
-export function createUser(uid: string, displayName: string) {
-  return setDoc(doc(databaseRef, uid), { displayName });
+export function createUser(uid: string, displayName: string, email: string) {
+  return setDoc(doc(databaseRef, uid), { displayName, email });
 }
