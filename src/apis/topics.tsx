@@ -6,6 +6,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   updateDoc,
 } from "firebase/firestore";
 import { Topic } from "src/@types/topic";
@@ -19,8 +20,12 @@ export function addTopic({ name }: Topic) {
 }
 
 export function subscribeTopicCount(callback: (count: number) => void) {
-  return getDocs(databaseRef).then((snapshot) => {
-    callback(snapshot.size);
+  return onSnapshot(doc(database, "topics"), (snapshot) => {
+    if (snapshot.exists()) {
+      callback(snapshot.data().count);
+    } else {
+      callback(0);
+    }
   });
 }
 

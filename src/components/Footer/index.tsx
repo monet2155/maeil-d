@@ -8,13 +8,18 @@ export default function Footer() {
   const [topicCount, setTopicCount] = useState(0);
 
   useEffect(() => {
-    subscribeDesignCount((designs) => {
+    const unsubscribeDesignCount = subscribeDesignCount((designs) => {
       setDesignCount(designs);
     });
 
-    subscribeTopicCount((topics) => {
+    const unsubscribeTopicCount = subscribeTopicCount((topics) => {
       setTopicCount(topics);
     });
+
+    return () => {
+      unsubscribeDesignCount();
+      unsubscribeTopicCount();
+    };
   }, []);
 
   return (
