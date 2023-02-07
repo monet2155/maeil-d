@@ -20,12 +20,8 @@ export function addTopic({ name }: Topic) {
 }
 
 export function subscribeTopicCount(callback: (count: number) => void) {
-  return onSnapshot(doc(database, "topics"), (snapshot) => {
-    if (snapshot.exists()) {
-      callback(snapshot.data().count);
-    } else {
-      callback(0);
-    }
+  return onSnapshot(collection(database, "topics"), (snapshot) => {
+    callback(snapshot.size);
   });
 }
 

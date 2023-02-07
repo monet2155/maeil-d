@@ -15,12 +15,8 @@ import { Design } from "src/@types/design";
 export const databaseRef = collection(database, "designs");
 
 export function subscribeDesignCount(callback: (count: number) => void) {
-  return onSnapshot(doc(database, "designs"), (snapshot) => {
-    if (snapshot.exists()) {
-      callback(snapshot.data().count);
-    } else {
-      callback(0);
-    }
+  return onSnapshot(collection(database, "designs"), (snapshot) => {
+    callback(snapshot.size);
   });
 }
 
