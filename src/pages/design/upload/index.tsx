@@ -118,13 +118,25 @@ export default function DesignUploadPage() {
         </section>
         <section>
           <fieldset className="flex flex-row gap-4">
-            <div onClick={() => setIsPublic(true)}>
-              <input type="radio" checked={isPublic} />
-              <label>공개</label>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  checked={isPublic}
+                  onChange={(e) => setIsPublic(e.target.checked)}
+                />
+                공개
+              </label>
             </div>
-            <div onClick={() => setIsPublic(false)}>
-              <input type="radio" checked={!isPublic} />
-              <label>비공개</label>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  checked={!isPublic}
+                  onChange={(e) => setIsPublic(!e.target.checked)}
+                />
+                비공개
+              </label>
             </div>
           </fieldset>
         </section>
