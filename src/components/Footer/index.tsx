@@ -1,6 +1,22 @@
+import { subscribeDesignCount } from "@apis/designs";
+import { subscribeTopicCount } from "@apis/topics";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Footer() {
+  const [designCount, setDesignCount] = useState(0);
+  const [topicCount, setTopicCount] = useState(0);
+
+  useEffect(() => {
+    subscribeDesignCount((designs) => {
+      setDesignCount(designs);
+    });
+
+    subscribeTopicCount((topics) => {
+      setTopicCount(topics);
+    });
+  }, []);
+
   return (
     <footer className="flex flex-col p-10 bg-gray-200">
       <section className="flex flex-row gap-8">
@@ -27,7 +43,9 @@ export default function Footer() {
       <div className="h-[1px] my-6 bg-gray-300" />
       <section className="flex flex-row justify-between">
         <section>© 2023 로망난녀석들. All rights reserved.</section>
-        <section>0 designs and 0 topics in 매일디</section>
+        <section>
+          {designCount} designs and {topicCount} topics in 매일디
+        </section>
       </section>
     </footer>
   );

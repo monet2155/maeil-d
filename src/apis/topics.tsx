@@ -18,6 +18,12 @@ export function addTopic({ name }: Topic) {
   });
 }
 
+export function subscribeTopicCount(callback: (count: number) => void) {
+  return getDocs(databaseRef).then((snapshot) => {
+    callback(snapshot.size);
+  });
+}
+
 export function getTopicList() {
   return getDocs(databaseRef);
 }

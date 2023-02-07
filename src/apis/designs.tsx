@@ -13,6 +13,12 @@ import { Design } from "src/@types/design";
 
 export const databaseRef = collection(database, "designs");
 
+export function subscribeDesignCount(callback: (count: number) => void) {
+  return getDocs(databaseRef).then((snapshot) => {
+    callback(snapshot.size);
+  });
+}
+
 export function getDesignListByTopicId(topicId: string) {
   return getDocs(query(databaseRef, where("topicId", "==", topicId)));
 }
