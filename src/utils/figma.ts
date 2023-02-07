@@ -7,5 +7,5 @@ export const convertFigmaIframeUrl = (originUrl: string) => {
     let src = srcString.substring(findKey.length, srcEndIndex);
     return src;
   }
-  return "404";
+  return "/error/notfoundfigmaurl";
 };
