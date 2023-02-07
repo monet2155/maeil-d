@@ -6,4 +6,5 @@ export type Design = {
   description: string;
 
   figmaUrl: string;
+  isPublic: boolean;
 };

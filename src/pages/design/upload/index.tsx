@@ -21,6 +21,8 @@ export default function DesignUploadPage() {
   const [description, setDescription] = useState("");
   const [user] = useAtom(userAtom);
 
+  const [isPublic, setIsPublic] = useState(true);
+
   useEffect(() => {
     getTopicList()
       .then((res) => {
@@ -52,6 +54,7 @@ export default function DesignUploadPage() {
       userId: user.uid,
       userName: user.displayName,
       figmaUrl,
+      isPublic,
     })
       .then((res) => {
         alert("업로드 되었습니다.");
@@ -69,7 +72,7 @@ export default function DesignUploadPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="flex flex-row gap-8">
+        <section className="flex flex-row gap-8">
           <section className="flex flex-col flex-1">
             <select
               value={selectedTopic}
@@ -109,7 +112,19 @@ export default function DesignUploadPage() {
               )}
             </div>
           </section>
-        </div>
+        </section>
+        <section>
+          <fieldset className="flex flex-row gap-4">
+            <div onClick={() => setIsPublic(true)}>
+              <input type="radio" checked={isPublic} />
+              <label>공개</label>
+            </div>
+            <div onClick={() => setIsPublic(false)}>
+              <input type="radio" checked={!isPublic} />
+              <label>비공개</label>
+            </div>
+          </fieldset>
+        </section>
 
         <button className="p-5 rounded-lg shadow-lg" onClick={onClickUpload}>
           업로드
