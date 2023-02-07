@@ -46,7 +46,10 @@ export default function DesignUploadPage() {
       return;
     }
 
-    if (!user) return;
+    if (!user) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
 
     uploadDesign({
       description,
