@@ -23,6 +23,10 @@ export function getDesignListByTopicId(topicId: string) {
   return getDocs(query(databaseRef, where("topicId", "==", topicId)));
 }
 
+export function getDesignListByUserId(userId: string) {
+  return getDocs(query(databaseRef, where("userId", "==", userId)));
+}
+
 export function getDesignDetail(id: string) {
   let currentField = doc(database, "designs", id);
   return getDoc(currentField);
