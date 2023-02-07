@@ -21,7 +21,13 @@ export function subscribeDesignCount(callback: (count: number) => void) {
 }
 
 export function getDesignListByTopicId(topicId: string) {
-  return getDocs(query(databaseRef, where("topicId", "==", topicId)));
+  return getDocs(
+    query(
+      databaseRef,
+      where("topicId", "==", topicId),
+      where("isPublic", "==", true)
+    )
+  );
 }
 
 export function getDesignListByUserId(userId: string) {
