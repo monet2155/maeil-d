@@ -5,7 +5,11 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["SUIT", "Malgun Gothic", "Apple SD Gothic Neo", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };
