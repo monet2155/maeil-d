@@ -1,25 +1,37 @@
 import { getDesignListByUserId } from "@apis/designs";
 import DesignItem from "@components/DesignItem";
 import { userAtom } from "@store";
+import { useIsMounted } from "@utils/useIsMounted";
 import { useAtom } from "jotai";
+import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Design } from "src/@types/design";
+import { User } from "src/@types/user";
 
-export default function MyPage() {
+export default function MyPage({ userData }: { userData?: User }) {
+  const isMounted = useIsMounted();
   const [user] = useAtom(userAtom);
   const router = useRouter();
   const [myDesignList, setMyDesignList] = useState<Design[]>([]);
 
   useEffect(() => {
-    if (!user || !user.uid) {
+    if (!user && !userData) {
       alert("로그인이 필요한 서비스입니다.");
       router.push("/");
       return;
     }
 
-    getDesignListByUserId(user.uid)
+    let uid = "";
+
+    if (user && !userData) {
+      uid = user.uid;
+    } else if (!user && userData) {
+      uid = userData.uid;
+    }
+
+    getDesignListByUserId(uid)
       .then((designs) => {
         setMyDesignList(
           designs.docs.map((data: any) => {
@@ -28,7 +40,7 @@ export default function MyPage() {
         );
       })
       .catch((err) => console.log(err));
-  }, [user, router]);
+  }, []);
 
   return (
     <>
@@ -41,16 +53,20 @@ export default function MyPage() {
       <main className="h-[80vh]">
         <h1>마이페이지</h1>
         <section className="my-8">
-          <table>
-            <tr>
-              <th>닉네임</th>
-              <td>{user?.displayName}</td>
-            </tr>
-            <tr>
-              <th>이메일</th>
-              <td>{user?.email}</td>
-            </tr>
-          </table>
+          {isMounted && (
+            <table>
+              <tbody>
+                <tr>
+                  <th>닉네임</th>
+                  <td>{user?.displayName}</td>
+                </tr>
+                <tr>
+                  <th>이메일</th>
+                  <td>{user?.email}</td>
+                </tr>
+              </tbody>
+            </table>
+          )}
         </section>
         <section>
           <h1>내 디자인 목록</h1>
