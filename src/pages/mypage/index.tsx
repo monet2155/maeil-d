@@ -1,7 +1,6 @@
 import { getDesignListByUserId } from "@apis/designs";
 import DesignItem from "@components/DesignItem";
 import { userAtom } from "@store";
-import { useIsMounted } from "@utils/useIsMounted";
 import { useAtom } from "jotai";
 import { NextPage } from "next";
 import Head from "next/head";
@@ -11,7 +10,6 @@ import { Design } from "src/@types/design";
 import { User } from "src/@types/user";
 
 export default function MyPage({ userData }: { userData?: User }) {
-  const isMounted = useIsMounted();
   const [user] = useAtom(userAtom);
   const router = useRouter();
   const [myDesignList, setMyDesignList] = useState<Design[]>([]);
@@ -53,20 +51,18 @@ export default function MyPage({ userData }: { userData?: User }) {
       <main className="h-[80vh]">
         <h1>마이페이지</h1>
         <section className="my-8">
-          {isMounted && (
-            <table>
-              <tbody>
-                <tr>
-                  <th>닉네임</th>
-                  <td>{user?.displayName}</td>
-                </tr>
-                <tr>
-                  <th>이메일</th>
-                  <td>{user?.email}</td>
-                </tr>
-              </tbody>
-            </table>
-          )}
+          <table>
+            <tbody>
+              <tr>
+                <th>닉네임</th>
+                <td>{user?.displayName}</td>
+              </tr>
+              <tr>
+                <th>이메일</th>
+                <td>{user?.email}</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
         <section>
           <h1>내 디자인 목록</h1>
