@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { app } from "src/utils/firebase";
-import { useState } from "react";
 import { userAtom } from "@store";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { getUserDetail } from "@apis/users";
+import { auth } from "@utils/firebase";
 
 export default function Header() {
   const router = useRouter();
@@ -14,10 +13,15 @@ export default function Header() {
 
   const onClickLogin = () => {
     const provider = new GoogleAuthProvider();
-    const auth = getAuth(app);
+
     signInWithPopup(auth, provider)
       .then((result) => {
         if (result && result.user) {
+          // set cookie expire time to 3 months
+          document.cookie = `uid=${result.user.uid}; path=/; max-age=${
+            60 * 60 * 24 * 30 * 3
+          }`;
+
           getUserDetail(result.user.uid)
             .then((userDoc) => {
               if (userDoc.exists()) {
@@ -47,8 +51,16 @@ export default function Header() {
   };
 
   const onClickLogout = () => {
-    setUser(null);
-    router.replace("/");
+    getAuth()
+      .signOut()
+      .then(() => {
+        setUser(null);
+        document.cookie = "uid=; path=/; max-age=0";
+        router.replace("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
