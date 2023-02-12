@@ -29,6 +29,7 @@ export default function Header() {
                   uid: userDoc.id,
                   displayName: userDoc.data().displayName,
                   email: userDoc.data().email,
+                  joinDate: userDoc.data().joinDate,
                 });
               } else {
                 router.push(
