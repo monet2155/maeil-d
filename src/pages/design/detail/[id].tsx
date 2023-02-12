@@ -5,9 +5,12 @@ import { Design } from "src/@types/design";
 import { useRouter } from "next/router";
 import { getDesignDetail } from "@apis/designs";
 import { convertFigmaIframeUrl } from "@utils/figma";
+import { User } from "src/@types/user";
+import { getUserDetail } from "@apis/users";
 
 export default function DesignDetailPage() {
   const [currentDesign, setCurrentDesign] = useState<Design | null>(null);
+  const [designOwner, setDesignOwner] = useState<User | null>(null);
 
   const router = useRouter();
 
@@ -23,6 +26,16 @@ export default function DesignDetailPage() {
       .catch((err) => console.log(err));
   }, [id]);
 
+  useEffect(() => {
+    if (!currentDesign) return;
+
+    getUserDetail(currentDesign.userId)
+      .then((res: any) => {
+        setDesignOwner({ ...res.data(), id: res.id });
+      })
+      .catch((err) => console.log(err));
+  }, [currentDesign]);
+
   return (
     <>
       <Head>
@@ -33,7 +46,7 @@ export default function DesignDetailPage() {
       </Head>
       <main>
         <div>
-          <h1>{currentDesign?.userName}님의 디자인</h1>
+          <h1>{designOwner?.displayName}님의 디자인</h1>
           <div className="relative max-h-[402px] overflow-hidden">
             {currentDesign?.figmaUrl && (
               <iframe
