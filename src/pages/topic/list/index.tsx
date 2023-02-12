@@ -38,7 +38,9 @@ export default function TopicListPage() {
                   <div className="flex flex-col">
                     <h1>{topic.name}</h1>
                     <div className="my-4 h-[1px] bg-black" />
-                    <div>{topic.description}</div>
+                    <div className="max-w-xs min-w-[20rem] ">
+                      {topic.description}
+                    </div>
                   </div>
                 </Link>
               </li>
