@@ -58,6 +58,7 @@ export default function DesignUploadPage() {
       userName: user.displayName,
       figmaUrl,
       isPublic,
+      createdDate: new Date(),
     })
       .then((res) => {
         alert("업로드 되었습니다.");

@@ -7,4 +7,5 @@ export type Design = {
 
   figmaUrl: string;
   isPublic: boolean;
+  createdDate: Date;
 };
