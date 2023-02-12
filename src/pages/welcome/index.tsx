@@ -1,4 +1,4 @@
-import { createUser } from "@apis/users";
+import { checkUserNameExist, createUser } from "@apis/users";
 import { userAtom } from "@store";
 import { useAtom } from "jotai";
 import Head from "next/head";
@@ -18,25 +18,41 @@ export default function MyPage() {
       return;
     }
 
-    if (!router.query.uid || !router.query.email) {
+    if (displayName.length < 2 || displayName.length > 10) {
+      alert("닉네임은 2~10자 사이로 설정해주세요.");
       return;
     }
 
-    let uid = router.query.uid.toString();
-    let email = router.query.email.toString();
+    checkUserNameExist(displayName)
+      .then((res) => {
+        if (!res.empty) {
+          alert("이미 존재하는 닉네임입니다.");
+          return;
+        }
 
-    createUser(uid, displayName, email)
-      .then((result) => {
-        setUser({
+        if (!router.query.uid || !router.query.email) {
+          return;
+        }
+        let uid = router.query.uid.toString();
+        let email = router.query.email.toString();
+
+        let newUser = {
           uid,
-          displayName: displayName,
+          displayName,
           email,
-        });
-        router.replace("/");
+          joinDate: new Date(),
+        };
+
+        createUser(newUser)
+          .then((result) => {
+            setUser(newUser);
+            router.replace("/");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
 
   return (
