@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { getTopicList } from "@apis/topics";
-import { Topic } from "src/@types/topic";
+import { getThemeList } from "@apis/themes";
+import { Theme } from "src/@types/theme";
 import { uploadDesign } from "@apis/designs";
 import { useAtom } from "jotai";
 import { userAtom } from "@store";
@@ -11,11 +11,11 @@ import { convertFigmaIframeUrl } from "@utils/figma";
 
 export default function DesignUploadPage() {
   const router = useRouter();
-  const { topic } = router.query;
+  const { theme } = router.query;
 
-  const [topics, setTopics] = useState<Topic[]>([]);
-  const [selectedTopic, setSelectedTopic] = useState<string>(
-    topic ? topic.toString() : ""
+  const [themes, setThemes] = useState<Theme[]>([]);
+  const [selectedTheme, setSelectedTheme] = useState<string>(
+    theme ? theme.toString() : ""
   );
   const [figmaUrl, setFigmaUrl] = useState("");
   const [description, setDescription] = useState("");
@@ -24,9 +24,9 @@ export default function DesignUploadPage() {
   const [isPublic, setIsPublic] = useState(true);
 
   useEffect(() => {
-    getTopicList()
+    getThemeList()
       .then((res) => {
-        setTopics(
+        setThemes(
           res.docs.map((data: any) => {
             return { ...data.data(), id: data.id };
           })
@@ -36,7 +36,7 @@ export default function DesignUploadPage() {
   }, []);
 
   const onClickUpload = () => {
-    if (selectedTopic == "") {
+    if (selectedTheme == "") {
       alert("토픽을 선택해주세요.");
       return;
     }
@@ -53,7 +53,7 @@ export default function DesignUploadPage() {
 
     uploadDesign({
       description,
-      topicId: selectedTopic,
+      themeId: selectedTheme,
       userId: user.uid,
       userName: user.displayName,
       figmaUrl,
@@ -79,11 +79,11 @@ export default function DesignUploadPage() {
         <section className="flex flex-row gap-8">
           <section className="flex flex-col flex-1">
             <select
-              value={selectedTopic}
-              onChange={(e) => setSelectedTopic(e.target.value)}
+              value={selectedTheme}
+              onChange={(e) => setSelectedTheme(e.target.value)}
             >
               <option value="">토픽</option>
-              {topics.map((ele) => (
+              {themes.map((ele) => (
                 <option key={ele.id} value={ele.id}>
                   {ele.name}
                 </option>

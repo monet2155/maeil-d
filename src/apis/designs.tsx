@@ -20,11 +20,11 @@ export function subscribeDesignCount(callback: (count: number) => void) {
   });
 }
 
-export function getDesignListByTopicId(topicId: string) {
+export function getDesignListByThemeId(themeId: string) {
   return getDocs(
     query(
       databaseRef,
-      where("topicId", "==", topicId),
+      where("themeId", "==", themeId),
       where("isPublic", "==", true)
     )
   );

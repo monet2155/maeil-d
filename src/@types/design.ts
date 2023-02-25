@@ -2,7 +2,7 @@ export type Design = {
   id?: string;
   userId: string;
   userName: string;
-  topicId: string;
+  themeId: string;
   description: string;
 
   figmaUrl: string;

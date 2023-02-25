@@ -1,4 +1,4 @@
-export type Topic = {
+export type Theme = {
   id: string;
   name: string;
   description: string;

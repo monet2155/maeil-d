@@ -1,24 +1,24 @@
 import { useState, useEffect } from "react";
 import Header from "@components/Header";
 import Head from "next/head";
-import { Topic } from "src/@types/topic";
-import { getTopicDetail } from "@apis/topics";
+import { Theme } from "src/@types/theme";
+import { getThemeDetail } from "@apis/themes";
 import { useRouter } from "next/router";
-import { getDesignListByTopicId } from "@apis/designs";
+import { getDesignListByThemeId } from "@apis/designs";
 import { Design } from "src/@types/design";
 import Link from "next/link";
 import DesignItem from "@components/DesignItem";
 
-export default function TopicDetailPage() {
+export default function ThemeDetailPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [currentTopic, setCurrentTopic] = useState<Topic | null>(null);
+  const [currentTheme, setCurrentTheme] = useState<Theme | null>(null);
   const [designs, setDesigns] = useState<Design[]>([]);
 
   const getDesigns = () => {
     if (!id) return;
-    getDesignListByTopicId(id.toString()).then((res) => {
+    getDesignListByThemeId(id.toString()).then((res) => {
       setDesigns(
         res.docs.map((data: any) => {
           return { ...data.data(), id: data.id };
@@ -29,9 +29,9 @@ export default function TopicDetailPage() {
 
   useEffect(() => {
     if (!id) return;
-    getTopicDetail(id.toString())
+    getThemeDetail(id.toString())
       .then((res) => {
-        setCurrentTopic({ ...res.data(), id: res.id } as Topic);
+        setCurrentTheme({ ...res.data(), id: res.id } as Theme);
         getDesigns();
       })
       .catch((err) => console.log(err));
@@ -48,12 +48,12 @@ export default function TopicDetailPage() {
       <main className="p-5">
         <div className="flex flex-row justify-between">
           <div>
-            <h1>{currentTopic?.name}</h1>
-            <div>{currentTopic?.description}</div>
+            <h1>{currentTheme?.name}</h1>
+            <div>{currentTheme?.description}</div>
           </div>
 
-          {currentTopic && (
-            <Link href={`/design/upload?topic=${currentTopic.id}`}>
+          {currentTheme && (
+            <Link href={`/design/upload?theme=${currentTheme.id}`}>
               <button className="p-5 rounded-lg shadow-lg">
                 이 주제로 디자인 업로드 하기
               </button>

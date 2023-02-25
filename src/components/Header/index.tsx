@@ -72,7 +72,7 @@ export default function Header() {
             <Link href="/">홈</Link>
           </li>
           <li>
-            <Link href="/topic/list">주제</Link>
+            <Link href="/theme/list">주제</Link>
           </li>
         </ul>
       </nav>
