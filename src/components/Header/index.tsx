@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import { getUserDetail } from "@apis/users";
 import { auth } from "@utils/firebase";
 
-import LogoNameSvg from "@assets/images/image_header_logo_name.svg";
-import LogoDSvg from "@assets/images/image_header_logo_d.svg";
+import LogoNameSvg from "@assets/images/image_logo_name.svg";
+import LogoDSvg from "@assets/images/image_logo_d.svg";
 import Image from "next/image";
 
 export default function Header() {
