@@ -6,6 +6,10 @@ import { useRouter } from "next/router";
 import { getUserDetail } from "@apis/users";
 import { auth } from "@utils/firebase";
 
+import LogoNameSvg from "@assets/images/image_header_logo_name.svg";
+import LogoDSvg from "@assets/images/image_header_logo_d.svg";
+import Image from "next/image";
+
 export default function Header() {
   const router = useRouter();
 
@@ -65,12 +69,15 @@ export default function Header() {
   };
 
   return (
-    <header className="flex flex-row justify-between p-10 bg-sky-300">
-      <nav>
+    <header className="flex flex-row justify-between px-8 bg-white py-7">
+      <Link href="/">
+        <div className="flex flex-row gap-2">
+          <Image src={LogoNameSvg} alt="header logo name" />
+          <Image src={LogoDSvg} alt="header logo d" />
+        </div>
+      </Link>
+      <nav className="flex-1 ml-8">
         <ul className="flex flex-row gap-5">
-          <li>
-            <Link href="/">홈</Link>
-          </li>
           <li>
             <Link href="/theme/list">주제</Link>
           </li>
