@@ -3,6 +3,7 @@ import { getThemeList, subscribeThemeCount } from "@apis/themes";
 import Header from "@components/Header";
 import MainThemeItem from "@components/MainThemeItem";
 import SignatureToken from "@components/SignatureToken";
+import cn from "classnames";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -112,13 +113,39 @@ export default function Home() {
             </div>
           </section>
         </section>
-        <section
-          className="flex flex-row overflow-x-scroll scrollbar-hide"
-          ref={themeListRef}
-        >
-          {weeklyThemeList.map((theme, index) => (
-            <MainThemeItem key={theme.id} data={theme} isFocused={index == 0} />
-          ))}
+        <section>
+          <section
+            className="relative flex flex-row overflow-x-scroll scrollbar-hide"
+            ref={themeListRef}
+          >
+            {weeklyThemeList.map((theme, index) => (
+              <MainThemeItem
+                key={theme.id}
+                data={theme}
+                isFocused={index == 0}
+              />
+            ))}
+          </section>
+          <button
+            className={cn(
+              `absolute flex items-center justify-center w-20 h-40 
+              bg-white text-[32px] leading-none tracking-[0.04em] 
+              font-bold text-[#1d1d1d] top-[50%] left-0`,
+              { "text-[#c4c4c4]": scrollPercentage == 0 }
+            )}
+          >
+            &lt;
+          </button>
+          <button
+            className={cn(
+              `absolute flex items-center justify-center w-20 h-40 
+              bg-white text-[32px] leading-none tracking-[0.04em] 
+              font-bold text-[#1d1d1d] top-[50%]  right-0`,
+              { "text-[#c4c4c4]": scrollPercentage >= 95 }
+            )}
+          >
+            &gt;
+          </button>
         </section>
       </main>
     </>
