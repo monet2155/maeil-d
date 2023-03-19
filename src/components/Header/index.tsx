@@ -8,8 +8,8 @@ import { auth } from "@utils/firebase";
 
 import LogoNameSvg from "@assets/images/image_logo_name.svg";
 import LogoDSvg from "@assets/images/image_logo_d.svg";
-import SignInDecorationSvg from "@assets/images/image_signin_decoration.svg";
 import Image from "next/image";
+import SignatureToken from "@components/SignatureToken";
 
 export default function Header() {
   const router = useRouter();
@@ -95,8 +95,8 @@ export default function Header() {
           className="w-[120px] flex justify-end items-center h-8 pr-2 relative"
           onClick={() => onClickLogin()}
         >
-          <Image
-            src={SignInDecorationSvg}
+          <SignatureToken
+            type="left"
             alt="sign in button background"
             className="absolute right-0"
           />
