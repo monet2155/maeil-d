@@ -16,7 +16,7 @@ export default function Home() {
   const [weeklyThemeList, setWeeklyThemeList] = useState<Theme[]>([]);
 
   const themeListRef = useRef<HTMLDivElement>(null);
-  const [scrollPercentage, setScrollPercentage] = useState(0);
+  const [scrollBarPosition, setScrollBarPosition] = useState(0);
 
   useEffect(() => {
     const unsubscribeDesignCount = subscribeDesignCount((designs) => {
@@ -52,7 +52,7 @@ export default function Home() {
 
       newPercentage -= (32 / target.clientWidth) * 100;
 
-      setScrollPercentage(newPercentage < 0 ? 0 : newPercentage);
+      setScrollBarPosition(newPercentage < 0 ? 0 : newPercentage);
     });
 
     return unsubscribe;
@@ -106,7 +106,7 @@ export default function Home() {
             <div
               className="bg-[#f0f0f0] h-1 w-full"
               style={{
-                paddingLeft: `${scrollPercentage}%`,
+                paddingLeft: `${scrollBarPosition}%`,
               }}
             >
               <div className="bg-[#1d1d1d] w-8 h-full" />
@@ -131,7 +131,7 @@ export default function Home() {
               `absolute flex items-center justify-center w-20 h-40 
               bg-white text-[32px] leading-none tracking-[0.04em] 
               font-bold text-[#1d1d1d] top-[50%] left-0`,
-              { "text-[#c4c4c4]": scrollPercentage == 0 }
+              { "text-[#c4c4c4]": scrollBarPosition == 0 }
             )}
           >
             &lt;
@@ -141,7 +141,7 @@ export default function Home() {
               `absolute flex items-center justify-center w-20 h-40 
               bg-white text-[32px] leading-none tracking-[0.04em] 
               font-bold text-[#1d1d1d] top-[50%]  right-0`,
-              { "text-[#c4c4c4]": scrollPercentage >= 95 }
+              { "text-[#c4c4c4]": scrollBarPosition >= 95 }
             )}
           >
             &gt;
