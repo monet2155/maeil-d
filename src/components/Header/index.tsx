@@ -8,6 +8,7 @@ import { auth } from "@utils/firebase";
 
 import LogoNameSvg from "@assets/images/image_logo_name.svg";
 import LogoDSvg from "@assets/images/image_logo_d.svg";
+import SignInDecorationSvg from "@assets/images/image_signin_decoration.svg";
 import Image from "next/image";
 
 export default function Header() {
@@ -90,7 +91,17 @@ export default function Header() {
           <button onClick={onClickLogout}>로그아웃</button>
         </div>
       ) : (
-        <button onClick={() => onClickLogin()}>로그인</button>
+        <button
+          className="w-[120px] flex justify-end items-center h-8 pr-2 relative"
+          onClick={() => onClickLogin()}
+        >
+          <Image
+            src={SignInDecorationSvg}
+            alt="sign in button background"
+            className="absolute right-0"
+          />
+          <span className="text-[16px] font-semibold relative">Sign in</span>
+        </button>
       )}
     </header>
   );
