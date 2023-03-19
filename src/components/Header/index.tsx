@@ -96,6 +96,8 @@ export default function Header() {
           onClick={() => onClickLogin()}
         >
           <SignatureToken
+            width={32}
+            height={32}
             type="left"
             alt="sign in button background"
             className="absolute right-0"
