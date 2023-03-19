@@ -5,7 +5,7 @@ import MainThemeItem from "@components/MainThemeItem";
 import SignatureToken from "@components/SignatureToken";
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Theme } from "src/@types/theme";
 
 export default function Home() {
@@ -13,6 +13,9 @@ export default function Home() {
   const [themeCount, setThemeCount] = useState(0);
 
   const [weeklyThemeList, setWeeklyThemeList] = useState<Theme[]>([]);
+
+  const themeListRef = useRef<HTMLDivElement>(null);
+  const [scrollPercentage, setScrollPercentage] = useState(0);
 
   useEffect(() => {
     const unsubscribeDesignCount = subscribeDesignCount((designs) => {
@@ -36,6 +39,24 @@ export default function Home() {
       unsubscribeThemeCount();
     };
   }, []);
+
+  useEffect(() => {
+    if (!themeListRef.current) return;
+
+    const unsubscribe = themeListRef.current.addEventListener("scroll", (e) => {
+      const target = e.target as HTMLDivElement;
+
+      let newPercentage =
+        (target.scrollLeft / (target.scrollWidth - target.clientWidth)) * 100;
+
+      newPercentage -= (32 / target.clientWidth) * 100;
+
+      setScrollPercentage(newPercentage < 0 ? 0 : newPercentage);
+    });
+
+    return unsubscribe;
+  }, [themeListRef]);
+
   return (
     <>
       <Head>
@@ -81,12 +102,20 @@ export default function Home() {
           </section>
           {/* scroll bar */}
           <section>
-            <div className="bg-[#f0f0f0] w-full h-1">
+            <div
+              className="bg-[#f0f0f0] h-1 w-full"
+              style={{
+                paddingLeft: `${scrollPercentage}%`,
+              }}
+            >
               <div className="bg-[#1d1d1d] w-8 h-full" />
             </div>
           </section>
         </section>
-        <section className="flex flex-row overflow-x-scroll scrollbar-hide">
+        <section
+          className="flex flex-row overflow-x-scroll scrollbar-hide"
+          ref={themeListRef}
+        >
           {weeklyThemeList.map((theme, index) => (
             <MainThemeItem key={theme.id} data={theme} isFocused={index == 0} />
           ))}
