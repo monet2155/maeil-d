@@ -76,13 +76,13 @@ export default function Header() {
           <Image src={LogoDSvg} alt="header logo d" />
         </div>
       </Link>
-      <nav className="flex-1 ml-8">
+      {/* <nav className="flex-1 ml-8">
         <ul className="flex flex-row gap-5">
           <li>
             <Link href="/theme/list">주제</Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
       {user ? (
         <div className="flex flex-row gap-4">
           <div>{user.displayName}님</div>
