@@ -2,7 +2,9 @@ import { subscribeDesignCount } from "@apis/designs";
 import { getThemeList, subscribeThemeCount } from "@apis/themes";
 import Header from "@components/Header";
 import MainThemeItem from "@components/MainThemeItem";
+import SignatureToken from "@components/SignatureToken";
 import Head from "next/head";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Theme } from "src/@types/theme";
 
@@ -44,27 +46,38 @@ export default function Home() {
       </Head>
       <main className="pb-8 bg-[#fcfcfc]">
         {/* title section */}
-        <section className="flex flex-col bg-[#fcfcfc] px-8 pt-8 pb-5 gap-8">
-          <section className="flex flex-row items-end gap-4">
-            <h1 className=" text-[64px] leading-none gap-1 tracking-[0.08em]">
-              <span className="font-black ">매일</span>
-              <span
-                className="font-black text-[#fcfcfc]"
-                style={{ WebkitTextStroke: "1px #1D1D1D" }}
-              >
-                새로운
-              </span>
-              <span className="font-black ">디</span>
-              <span
-                className="font-black text-[#fcfcfc]"
-                style={{ WebkitTextStroke: "1px #1D1D1D" }}
-              >
-                자인주제
-              </span>
+        <section className="flex flex-col bg-[#fcfcfc] ">
+          <section className="flex flex-row items-center gap-8 px-8 my-2 ">
+            <SignatureToken
+              type="cross"
+              alt="main title icon"
+              width="12"
+              height="12"
+            />
+            <h1 className="text-[#1d1d1d] text-[24px] font-bold leading-none tracking-[0.08em]">
+              매일 새로운 디자인 주제
             </h1>
-            <h2 className="font-normal text-[32px] leading-none tracking-[0.04em] text-[#1d1d1d]">
+            <SignatureToken
+              type="cross"
+              alt="main title icon"
+              width="12"
+              height="12"
+            />
+            <h2 className="text-[#1d1d1d] text-[24px] font-medium leading-none tracking-[0.04em]">
               {designCount} designs and {themeCount} themes in 매일디
             </h2>
+            <SignatureToken
+              type="cross"
+              alt="main title icon"
+              width="12"
+              height="12"
+            />
+            <Link
+              href="/theme/list"
+              className="text-[#1d1d1d] text-[24px] font-bold leading-none tracking-[0.04em] underline"
+            >
+              주제 목록으로 이동&gt;
+            </Link>
           </section>
           {/* scroll bar */}
           <section>

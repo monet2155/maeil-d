@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-interface TokenProps {
+interface TokenProps extends React.SVGProps<SVGSVGElement> {
   className?: string;
   type: "left" | "right" | "cross";
   color?: string;
