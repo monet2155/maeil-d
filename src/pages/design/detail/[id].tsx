@@ -7,10 +7,12 @@ import { getDesignDetail } from "@apis/designs";
 import { convertFigmaIframeUrl } from "@utils/figma";
 import { User } from "src/@types/user";
 import { getUserDetail } from "@apis/users";
+import ModalReport from "@components/ModalReport";
 
 export default function DesignDetailPage() {
   const [currentDesign, setCurrentDesign] = useState<Design | null>(null);
   const [designOwner, setDesignOwner] = useState<User | null>(null);
+  const [isOpenReportModal, setIsOpenReportModal] = useState(false);
 
   const router = useRouter();
 
@@ -36,7 +38,9 @@ export default function DesignDetailPage() {
       .catch((err) => console.log(err));
   }, [currentDesign]);
 
-  const onClickReport = () => {};
+  const onClickReport = () => {
+    setIsOpenReportModal(true);
+  };
 
   return (
     <>
@@ -60,10 +64,19 @@ export default function DesignDetailPage() {
         <h1>후기</h1>
         <section>{currentDesign?.description}</section>
         <section className="my-4">
-          <button onClick={onClickReport} className="p-4 shadow-lg">
+          <button
+            type="button"
+            onClick={onClickReport}
+            className="p-4 shadow-lg"
+          >
             신고하기
           </button>
         </section>
+        <ModalReport
+          isOpenReportModal={isOpenReportModal}
+          onClose={() => setIsOpenReportModal(false)}
+          selectedDesignId={currentDesign?.id || ""}
+        />
       </main>
     </>
   );
