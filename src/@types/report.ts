@@ -4,7 +4,7 @@ export type Report = {
   userId: string;
   targetId: string;
 
-  category: ReportCategory;
+  categoryId: string;
   reason: string;
   createdDate: Date;
 };
