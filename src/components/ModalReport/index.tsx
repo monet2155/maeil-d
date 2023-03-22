@@ -30,6 +30,13 @@ export default function ModalReport(props: ModalReportProps) {
   }, [isOpenReportModal]);
 
   const requestReport = () => {
+    if (!auth.currentUser) {
+      alert(
+        "로그인 후 이용해주세요. 신고 내용은 저장되지 않으니, 복사 후 붙여넣기 하시면 더욱 편리합니다."
+      );
+      return;
+    }
+
     if (!selectedCategory) {
       alert("신고 카테고리를 선택해주세요.");
       return;
@@ -37,11 +44,6 @@ export default function ModalReport(props: ModalReportProps) {
 
     if (!reportReason) {
       alert("신고 내용을 입력해주세요.");
-      return;
-    }
-
-    if (!auth.currentUser) {
-      alert("로그인 후 이용해주세요.");
       return;
     }
 
