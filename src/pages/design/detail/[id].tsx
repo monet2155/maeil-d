@@ -36,6 +36,8 @@ export default function DesignDetailPage() {
       .catch((err) => console.log(err));
   }, [currentDesign]);
 
+  const onClickReport = () => {};
+
   return (
     <>
       <Head>
@@ -44,21 +46,24 @@ export default function DesignDetailPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div>
-          <h1>{designOwner?.displayName}님의 디자인</h1>
-          <div className="relative max-h-[402px] overflow-hidden">
-            {currentDesign?.figmaUrl && (
-              <iframe
-                src={convertFigmaIframeUrl(currentDesign.figmaUrl)}
-                height="450"
-                width="800"
-              />
-            )}
-          </div>
-          <h1>후기</h1>
-          <div>{currentDesign?.description}</div>
-        </div>
+      <main className="p-3">
+        <h1>{designOwner?.displayName}님의 디자인</h1>
+        <section className="relative max-h-[402px] overflow-hidden">
+          {currentDesign?.figmaUrl && (
+            <iframe
+              src={convertFigmaIframeUrl(currentDesign.figmaUrl)}
+              height="450"
+              width="800"
+            />
+          )}
+        </section>
+        <h1>후기</h1>
+        <section>{currentDesign?.description}</section>
+        <section className="my-4">
+          <button onClick={onClickReport} className="p-4 shadow-lg">
+            신고하기
+          </button>
+        </section>
       </main>
     </>
   );
