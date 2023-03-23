@@ -28,9 +28,11 @@ export default function MainThemeItem({ data, isFocused }: MainThemeItemProps) {
 
   return (
     <Link href={`/theme/detail/${data.id}`}>
-      {/* FIXME: bg image */}
       <section
-        className={`min-h-[848px] min-w-[640px] bg-gray-300 bg-contain p-8 flex flex-col gap-4`}
+        style={{
+          backgroundImage: `url(${data.thumbnailUrl})`,
+        }}
+        className={`min-h-[848px] min-w-[640px] bg-gray-300 p-8 flex flex-col gap-4 bg-cover bg-center`}
       >
         <h1 className="text-white font-bold text-[40px] leading-none tracking-[0.02em]">
           {data.name}
