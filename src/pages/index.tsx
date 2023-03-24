@@ -17,6 +17,8 @@ export default function Home() {
 
   const themeListRef = useRef<HTMLDivElement>(null);
   const [scrollBarPosition, setScrollBarPosition] = useState(0);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [scrollBarWidth, setScrollBarWidth] = useState(-1);
 
   useEffect(() => {
     const unsubscribeDesignCount = subscribeDesignCount((designs) => {
@@ -29,9 +31,11 @@ export default function Home() {
 
     getThemeList().then((res) => {
       setWeeklyThemeList(
-        res.docs.map((data: any) => {
-          return { ...data.data(), id: data.id };
-        })
+        res.docs
+          .slice(0, Math.floor(res.docs.length / 3) * 3)
+          .map((data: any) => {
+            return { ...data.data(), id: data.id };
+          })
       );
     });
 
@@ -44,19 +48,62 @@ export default function Home() {
   useEffect(() => {
     if (!themeListRef.current) return;
 
-    const unsubscribe = themeListRef.current.addEventListener("scroll", (e) => {
+    themeListRef.current.onwheel = (e) => {
+      if (e.shiftKey) {
+        e.preventDefault();
+      }
+    };
+
+    themeListRef.current.onscroll = (e) => {
       const target = e.target as HTMLDivElement;
 
       let newPercentage =
         (target.scrollLeft / (target.scrollWidth - target.clientWidth)) * 100;
 
+      if (scrollBarWidth === -1) {
+        setScrollBarWidth(window.innerWidth - target.clientWidth);
+      }
+
+      if (newPercentage === 0 || target.scrollLeft % 640 === 0) {
+        setIsScrolling(false);
+      }
+
       newPercentage -= (32 / target.clientWidth) * 100;
 
       setScrollBarPosition(newPercentage < 0 ? 0 : newPercentage);
-    });
+    };
 
-    return unsubscribe;
-  }, [themeListRef]);
+    return () => {
+      if (!themeListRef.current) return;
+
+      themeListRef.current.onwheel = null;
+      themeListRef.current.onscroll = null;
+    };
+  }, [themeListRef, scrollBarWidth]);
+
+  const onClickScrollButton = (direction: "left" | "right") => {
+    if (!themeListRef.current || isScrolling) return;
+
+    const target = themeListRef.current;
+
+    let scrollAmount = 640 * 3;
+    if (target.scrollLeft === (weeklyThemeList.length - 5) * 640) {
+      scrollAmount -= scrollBarWidth;
+    }
+    setIsScrolling(true);
+
+    if (direction === "left") {
+      target.scroll({
+        left: target.scrollLeft - scrollAmount,
+        behavior: "smooth",
+      });
+    } else {
+      target.scroll({
+        left: target.scrollLeft + scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <>
@@ -113,26 +160,24 @@ export default function Home() {
             </div>
           </section>
         </section>
-        <section>
+        <section className="relative">
           <section
-            className="relative flex flex-row overflow-x-scroll scrollbar-hide"
+            className="flex flex-row overflow-x-scroll scrollbar-hide"
             ref={themeListRef}
           >
             {weeklyThemeList.map((theme, index) => (
-              <MainThemeItem
-                key={theme.id}
-                data={theme}
-                isFocused={index == 0}
-              />
+              <MainThemeItem key={theme.id} data={theme} />
             ))}
           </section>
           <button
             className={cn(
               `absolute flex items-center justify-center w-20 h-40 
               bg-white text-[32px] leading-none tracking-[0.04em] 
-              font-bold text-[#1d1d1d] top-[50%] left-0`,
+              font-bold text-[#1d1d1d] top-[50%] left-0 transform -translate-y-1/2`,
               { "text-[#c4c4c4]": scrollBarPosition == 0 }
             )}
+            disabled={scrollBarPosition == 0}
+            onClick={() => onClickScrollButton("left")}
           >
             &lt;
           </button>
@@ -140,9 +185,11 @@ export default function Home() {
             className={cn(
               `absolute flex items-center justify-center w-20 h-40 
               bg-white text-[32px] leading-none tracking-[0.04em] 
-              font-bold text-[#1d1d1d] top-[50%]  right-0`,
+              font-bold text-[#1d1d1d] top-[50%]  right-0  transform -translate-y-1/2`,
               { "text-[#c4c4c4]": scrollBarPosition >= 95 }
             )}
+            disabled={scrollBarPosition >= 95}
+            onClick={() => onClickScrollButton("right")}
           >
             &gt;
           </button>
