@@ -3,4 +3,5 @@ export type Theme = {
   name: string;
   description: string;
   thumbnailUrl: string;
+  colorCode: string;
 };
