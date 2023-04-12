@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import Header from "@components/Header";
 import Head from "next/head";
 import { getThemeList } from "@apis/themes";
 import { Theme } from "src/@types/theme";
-import Link from "next/link";
 import { getDesignListByThemeId } from "@apis/designs";
+import cn from "classnames";
 
 export default function ThemeListPage() {
   const [themeList, setThemeList] = useState<Theme[]>([]);
@@ -53,7 +52,7 @@ export default function ThemeListPage() {
       </Head>
       <main className="min-h-[1000px] flex flex-row pb-8">
         <section
-          className="w-[1280px] bg-cover bg-center bg-no-repeat p-8"
+          className="min-w-[1280px] bg-cover bg-center bg-no-repeat p-8"
           style={{
             backgroundImage: `url(${
               selectedTheme ? selectedTheme.thumbnailUrl : ""
@@ -72,6 +71,26 @@ export default function ThemeListPage() {
           <h3 className="text-white text-[24px] leading-normal tracking-[0.04em] max-w-[691px] mt-4">
             {selectedTheme?.description}
           </h3>
+        </section>
+        <section className="max-h-[1000px] w-full overflow-auto scrollbar-hide">
+          {themeList.map((theme, index) => (
+            <div
+              key={theme.id}
+              className={cn(
+                "h-[128px] p-6 border-t border-[#1d1d1d] cursor-pointer",
+                {
+                  "border-b": index === themeList.length - 1,
+                }
+              )}
+            >
+              <h1 className=" font-bold text-[24px] leading-none tracking-[0.04em] text-[#1d1d1d]">
+                {theme.name}
+              </h1>
+              <h3 className="mt-2 text-[16px] leading-normal tracking-[0.04em] text-[#1d1d1d]">
+                {theme.description}
+              </h3>
+            </div>
+          ))}
         </section>
       </main>
     </>
