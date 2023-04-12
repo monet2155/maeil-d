@@ -7,7 +7,7 @@ import Link from "next/link";
 import { getDesignListByThemeId } from "@apis/designs";
 
 export default function ThemeListPage() {
-  const [themes, setThemes] = useState<Theme[]>([]);
+  const [themeList, setThemeList] = useState<Theme[]>([]);
   const [selectedTheme, setSelectedTheme] = useState<Theme | null>(null);
 
   const [uploaderCount, setUploaderCount] = useState(0);
@@ -16,7 +16,7 @@ export default function ThemeListPage() {
   useEffect(() => {
     getThemeList()
       .then((res) => {
-        setThemes(
+        setThemeList(
           res.docs.map((data: any) => {
             return { ...data.data(), id: data.id };
           })
@@ -26,10 +26,10 @@ export default function ThemeListPage() {
   }, []);
 
   useEffect(() => {
-    if (themes.length > 0) {
-      setSelectedTheme(themes[0]);
+    if (themeList.length > 0) {
+      setSelectedTheme(themeList[0]);
     }
-  }, [themes]);
+  }, [themeList]);
 
   useEffect(() => {
     if (!selectedTheme) return;
