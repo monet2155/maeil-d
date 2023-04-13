@@ -59,7 +59,7 @@ export default function ThemeDetailPage() {
           uploaderCount={uploaderCount}
           designCount={designCount}
         />
-        <section className="max-h-[1000px] w-full overflow-auto scrollbar-hide">
+        <section className="w-full ">
           <h1 className="h-[55px] bg-[#1d1d1d] pl-6 flex items-center text-white font-bold text-2xl leading-none tracking-[0.04em]">
             {currentTheme?.name}
           </h1>
@@ -91,11 +91,22 @@ export default function ThemeDetailPage() {
               </Link>
             )}
           </section>
-          <ul className="flex flex-row flex-wrap gap-2 p-4 border-t border-[#1d1d1d]">
-            {designs.map((design) => (
-              <DesignItem key={design.id} design={design} />
-            ))}
-          </ul>
+          <section className="relative h-[729px]">
+            <ul className=" grid grid-cols-2 p-6 border-t border-[#1d1d1d] gap-6 max-h-[729px] overflow-auto scrollbar-hide">
+              {designs.map((design) => (
+                <DesignItem key={design.id} design={design} />
+              ))}
+            </ul>
+            {/* {designCount > 1 && (
+              <div
+                className="absolute bottom-0 w-full h-8"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(29, 29, 29, 0) 0%, rgba(29, 29, 29, 0.2) 100%)",
+                }}
+              />
+            )} */}
+          </section>
         </section>
       </main>
     </>
