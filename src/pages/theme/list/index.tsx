@@ -59,39 +59,41 @@ export default function ThemeListPage() {
           designCount={designCount}
         />
         <section className="max-h-[1000px] w-full overflow-auto scrollbar-hide">
-          {themeList.map((theme, index) => (
-            <>
-              {selectedTheme?.id !== theme.id ? (
-                <div
-                  key={theme.id}
-                  className={cn(
-                    "h-[128px] p-6 border-t border-[#1d1d1d] cursor-pointer",
-                    {
-                      "border-b": index === themeList.length - 1,
-                    }
-                  )}
-                  onClick={() => setSelectedTheme(theme)}
-                >
-                  <h1 className=" font-bold text-[24px] leading-none tracking-[0.04em] text-[#1d1d1d]">
-                    {theme.name}
-                  </h1>
-                  <h3 className="mt-2 text-[16px] leading-normal tracking-[0.04em] text-[#1d1d1d]">
-                    {theme.description}
-                  </h3>
-                </div>
-              ) : (
-                <Link
-                  key={theme.id}
-                  className="h-[128px] bg-[#1d1d1d] cursor-pointer flex items-center justify-center"
-                  href={`/theme/detail/${theme.id}`}
-                >
-                  <h1 className="text-white font-bold text-[24px] leading-none tracking-[0.04em]">
-                    상세 확인 &gt;
-                  </h1>
-                </Link>
-              )}
-            </>
-          ))}
+          <ul>
+            {themeList.map((theme, index) => (
+              <>
+                {selectedTheme?.id !== theme.id ? (
+                  <li
+                    key={theme.id}
+                    className={cn(
+                      "h-[128px] p-6 border-t border-[#1d1d1d] cursor-pointer",
+                      {
+                        "border-b": index === themeList.length - 1,
+                      }
+                    )}
+                    onClick={() => setSelectedTheme(theme)}
+                  >
+                    <h1 className=" font-bold text-[24px] leading-none tracking-[0.04em] text-[#1d1d1d]">
+                      {theme.name}
+                    </h1>
+                    <h3 className="mt-2 text-[16px] leading-normal tracking-[0.04em] text-[#1d1d1d]">
+                      {theme.description}
+                    </h3>
+                  </li>
+                ) : (
+                  <Link
+                    key={theme.id}
+                    className="h-[128px] bg-[#1d1d1d] cursor-pointer flex items-center justify-center"
+                    href={`/theme/detail/${theme.id}`}
+                  >
+                    <h1 className="text-white font-bold text-[24px] leading-none tracking-[0.04em]">
+                      상세 확인 &gt;
+                    </h1>
+                  </Link>
+                )}
+              </>
+            ))}
+          </ul>
         </section>
       </main>
     </>
