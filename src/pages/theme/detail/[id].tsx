@@ -8,6 +8,7 @@ import { getDesignListByThemeId } from "@apis/designs";
 import { Design } from "src/@types/design";
 import Link from "next/link";
 import DesignItem from "@components/DesignItem";
+import ThemeCard from "@components/ThemeCard";
 
 export default function ThemeDetailPage() {
   const router = useRouter();
@@ -16,14 +17,21 @@ export default function ThemeDetailPage() {
   const [currentTheme, setCurrentTheme] = useState<Theme | null>(null);
   const [designs, setDesigns] = useState<Design[]>([]);
 
+  const [uploaderCount, setUploaderCount] = useState(0);
+  const [designCount, setDesignCount] = useState(0);
+
   const getDesigns = () => {
     if (!id) return;
     getDesignListByThemeId(id.toString()).then((res) => {
+      const uploaderSet = new Set();
       setDesigns(
         res.docs.map((data: any) => {
+          uploaderSet.add(data.data().uploader);
           return { ...data.data(), id: data.id };
         })
       );
+      setUploaderCount(uploaderSet.size);
+      setDesignCount(res.docs.length);
     });
   };
 
@@ -45,29 +53,50 @@ export default function ThemeDetailPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="p-5">
-        <div className="flex flex-row justify-between">
-          <div>
-            <h1>{currentTheme?.name}</h1>
-            <div>{currentTheme?.description}</div>
-          </div>
-
-          {currentTheme && (
-            <Link href={`/design/upload?theme=${currentTheme.id}`}>
-              <button className="p-5 rounded-lg shadow-lg">
-                이 주제로 디자인 업로드 하기
-              </button>
-            </Link>
-          )}
-        </div>
-        <h1>이 주제의 디자인 작업물</h1>
-        <div>
-          <ul className="flex flex-row flex-wrap gap-2 p-4">
+      <main className="min-h-[1000px] flex flex-row pb-8">
+        <ThemeCard
+          selectedTheme={currentTheme}
+          uploaderCount={uploaderCount}
+          designCount={designCount}
+        />
+        <section className="max-h-[1000px] w-full overflow-auto scrollbar-hide">
+          <h1 className="h-[55px] bg-[#1d1d1d] pl-6 flex items-center text-white font-bold text-2xl leading-none tracking-[0.04em]">
+            {currentTheme?.name}
+          </h1>
+          <section className="p-6 h-[216px] max-h-[216px] flex flex-col">
+            <desc className="text-base leading-none tracking-[0.04em] flex flex-1 text-[#1d1d1d]">
+              {currentTheme?.description}
+            </desc>
+            <div className="flex flex-row items-baseline gap-4">
+              <h2 className="font-bold leading-none tracking-[0.04em] text-xl text-[#1d1d1d]">
+                현재 이 주제의 디자인 작업물
+              </h2>
+              <h3 className="leading-none tracking-[0.02em] text-base text-[#1d1d1d]">
+                현재 제출자 {uploaderCount > 99 ? "99+" : uploaderCount}명
+              </h3>
+              <h3 className="leading-none tracking-[0.02em] text-base text-[#1d1d1d]">
+                현재 등록된 디자인 {designCount > 99 ? "99+" : designCount}개
+              </h3>
+            </div>
+            {currentTheme && (
+              <Link
+                href={`/design/upload?theme=${currentTheme.id}`}
+                className="h-[56px] mt-6 font-bold text-white text-base leading-none tracking-[0.04em] flex items-center justify-center"
+                style={{
+                  background:
+                    "linear-gradient(90.51deg, #1D1D1D 0%, rgba(29, 29, 29, 0.81) 100%)",
+                }}
+              >
+                나도 디자인 해보기 &gt;
+              </Link>
+            )}
+          </section>
+          <ul className="flex flex-row flex-wrap gap-2 p-4 border-t border-[#1d1d1d]">
             {designs.map((design) => (
               <DesignItem key={design.id} design={design} />
             ))}
           </ul>
-        </div>
+        </section>
       </main>
     </>
   );
