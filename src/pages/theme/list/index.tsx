@@ -11,6 +11,9 @@ export default function ThemeListPage() {
   const [themeList, setThemeList] = useState<Theme[]>([]);
   const [selectedTheme, setSelectedTheme] = useState<Theme | null>(null);
 
+  const [uploaderCount, setUploaderCount] = useState(0);
+  const [designCount, setDesignCount] = useState(0);
+
   useEffect(() => {
     getThemeList()
       .then((res) => {
@@ -29,6 +32,18 @@ export default function ThemeListPage() {
     }
   }, [themeList]);
 
+  useEffect(() => {
+    if (!selectedTheme) return;
+    getDesignListByThemeId(selectedTheme.id).then((res) => {
+      const uploaderSet = new Set();
+      res.docs.forEach((doc) => {
+        uploaderSet.add(doc.data().uploader);
+      });
+      setUploaderCount(uploaderSet.size);
+      setDesignCount(res.docs.length);
+    });
+  }, [selectedTheme]);
+
   return (
     <>
       <Head>
@@ -38,7 +53,11 @@ export default function ThemeListPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-[1000px] flex flex-row pb-8">
-        <ThemeCard selectedTheme={selectedTheme} />
+        <ThemeCard
+          selectedTheme={selectedTheme}
+          uploaderCount={uploaderCount}
+          designCount={designCount}
+        />
         <section className="max-h-[1000px] w-full overflow-auto scrollbar-hide">
           {themeList.map((theme, index) => (
             <>

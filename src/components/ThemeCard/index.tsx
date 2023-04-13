@@ -4,24 +4,15 @@ import { Theme } from "src/@types/theme";
 
 interface ThemeCardProps {
   selectedTheme: Theme | null;
+  uploaderCount: number;
+  designCount: number;
 }
 
-export default function ThemeCard({ selectedTheme }: ThemeCardProps) {
-  const [uploaderCount, setUploaderCount] = useState(0);
-  const [designCount, setDesignCount] = useState(0);
-
-  useEffect(() => {
-    if (!selectedTheme) return;
-    getDesignListByThemeId(selectedTheme.id).then((res) => {
-      const uploaderSet = new Set();
-      res.docs.forEach((doc) => {
-        uploaderSet.add(doc.data().uploader);
-      });
-      setUploaderCount(uploaderSet.size);
-      setDesignCount(res.docs.length);
-    });
-  }, [selectedTheme]);
-
+export default function ThemeCard({
+  selectedTheme,
+  uploaderCount,
+  designCount,
+}: ThemeCardProps) {
   return (
     <section
       className="min-w-[1280px] bg-cover bg-center bg-no-repeat p-8"
