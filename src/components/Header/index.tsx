@@ -77,13 +77,15 @@ export default function Header() {
           <Image src={LogoDSvg} alt="header logo d" />
         </div>
       </Link>
-      {/* <nav className="flex-1 ml-8">
+      <nav className="flex-1 ml-8">
         <ul className="flex flex-row gap-5">
           <li>
-            <Link href="/theme/list">주제</Link>
+            <Link href="/theme/list" className="underline">
+              모든 주제
+            </Link>
           </li>
         </ul>
-      </nav> */}
+      </nav>
       {user ? (
         <div className="flex flex-row gap-4">
           <div>{user.displayName}님</div>
@@ -92,7 +94,7 @@ export default function Header() {
         </div>
       ) : (
         <button
-          className="w-[120px] flex justify-end items-center h-8 pr-2 relative"
+          className="w-[120px] flex justify-end items-center h-6 pr-2 relative"
           onClick={() => onClickLogin()}
         >
           <SignatureToken
