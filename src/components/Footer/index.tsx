@@ -34,12 +34,12 @@ export default function Footer() {
         <h1 className="font-extrabold leading-none tracking-[0.04em] text-base text-[#1d1d1d]">
           COMPANY
         </h1>
-        <Link
+        {/* <Link
           href="/"
           className="font-normal leading-none tracking-[0.04em] text-sm text-[#1d1d1d]"
         >
           서비스소개
-        </Link>
+        </Link> */}
         <Link
           href="/terms"
           className="font-normal leading-none tracking-[0.04em] text-sm text-[#1d1d1d]"
