@@ -32,19 +32,15 @@ export default function DesignItem({ design }: DesignItemProps) {
         <Image
           src={""}
           alt="design thumbnail"
-          className="w-full h-[184px] border border-[#1d1d1d]"
+          className="w-full h-[300px] bg-[#fdfdfd] rounded-2xl"
         />
         <div className="flex flex-row items-center justify-between pt-[1px]">
           <h1 className="font-bold text-[#1d1d1d] leading-none tracking-[0.04em] text-base">
             {designOwner?.displayName}
           </h1>
           <h2 className="flex flex-row gap-1 text-base leading-none tracking-[0.04em] text-[#1d1d1d]">
-            <Image src={ViewCountIconSvg} alt="view count icon" />
-            99,999+
+            <Image src={ViewCountIconSvg} alt="view count icon" />0
           </h2>
-        </div>
-        <div className="overflow-hidden overflow-ellipsis whitespace-nowrap text-base leading-none tracking-[0.04em] text-[#1d1d1d]">
-          {design.description}
         </div>
       </Link>
     </li>
