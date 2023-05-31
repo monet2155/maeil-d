@@ -29,22 +29,21 @@ export default function DesignItem({ design }: DesignItemProps) {
         className="flex flex-col gap-2"
         href={`/design/detail/${design.id}`}
       >
-        <Image
-          src={""}
-          alt="design thumbnail"
-          className="w-full h-[184px] border border-[#1d1d1d]"
-        />
+        <div className="relative w-full h-full overflow-hidden  pb-[75%]">
+          <Image
+            src={"https://picsum.photos/200/300"}
+            alt="design thumbnail"
+            fill
+            className="object-cover bg-[#fdfdfd] rounded-2xl"
+          />
+        </div>
         <div className="flex flex-row items-center justify-between pt-[1px]">
           <h1 className="font-bold text-[#1d1d1d] leading-none tracking-[0.04em] text-base">
             {designOwner?.displayName}
           </h1>
           <h2 className="flex flex-row gap-1 text-base leading-none tracking-[0.04em] text-[#1d1d1d]">
-            <Image src={ViewCountIconSvg} alt="view count icon" />
-            99,999+
+            <Image src={ViewCountIconSvg} alt="view count icon" />0
           </h2>
-        </div>
-        <div className="overflow-hidden overflow-ellipsis whitespace-nowrap text-base leading-none tracking-[0.04em] text-[#1d1d1d]">
-          {design.description}
         </div>
       </Link>
     </li>

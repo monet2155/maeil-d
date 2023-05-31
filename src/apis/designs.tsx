@@ -1,11 +1,13 @@
 import { database } from "@utils/firebase";
 import {
+  QueryConstraint,
   addDoc,
   collection,
   doc,
   getDoc,
   getDocs,
   onSnapshot,
+  orderBy,
   query,
   setDoc,
   where,
@@ -18,6 +20,17 @@ export function subscribeDesignCount(callback: (count: number) => void) {
   return onSnapshot(collection(database, "designs"), (snapshot) => {
     callback(snapshot.size);
   });
+}
+
+export function getDesignList(orderByList: "recent") {
+  const queries = [where("isPublic", "==", true)] as QueryConstraint[];
+
+  if (orderByList === "recent") {
+    queries.push(orderBy("createdDate", "desc"));
+  }
+
+  const queryRef = query(databaseRef, ...queries);
+  return getDocs(queryRef);
 }
 
 export function getDesignListByThemeId(themeId: string) {
