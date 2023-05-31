@@ -89,7 +89,7 @@ export default function Header() {
       {user ? (
         <div className="flex flex-row gap-4">
           <div>{user.displayName}님</div>
-          <Link href="/mypage">마이페이지</Link>
+          {/* <Link href="/mypage">마이페이지</Link> */}
           <button onClick={onClickLogout}>로그아웃</button>
         </div>
       ) : (
