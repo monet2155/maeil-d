@@ -39,7 +39,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="px-16 py-8 bg-white">
+      <main className="min-h-screen px-16 py-8 bg-white">
         <ul
           className="grid grid-flow-row grid-cols-4 gap-9 "
           style={{
