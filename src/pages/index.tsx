@@ -40,7 +40,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="px-16 py-8 bg-white">
-        <ul className="grid grid-flow-row grid-cols-4 gap-9">
+        <ul
+          className="grid grid-flow-row grid-cols-4 gap-9 max-[1348px]:grid-cols-3 max-[962px]:grid-cols-2 max-[632px]:grid-cols-1 "
+          style={{
+            gridTemplateColumns: "repeat(auto-fill, minmax(336px, 1fr))",
+          }}
+        >
           {designList.map((ele) => (
             <DesignItem key={ele.id} design={ele} />
           ))}

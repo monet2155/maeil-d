@@ -29,11 +29,14 @@ export default function DesignItem({ design }: DesignItemProps) {
         className="flex flex-col gap-2"
         href={`/design/detail/${design.id}`}
       >
-        <Image
-          src={""}
-          alt="design thumbnail"
-          className="w-full h-[300px] bg-[#fdfdfd] rounded-2xl"
-        />
+        <div className="relative w-full h-full overflow-hidden  pb-[75%]">
+          <Image
+            src={"https://picsum.photos/200/300"}
+            alt="design thumbnail"
+            fill
+            className="object-cover bg-[#fdfdfd] rounded-2xl"
+          />
+        </div>
         <div className="flex flex-row items-center justify-between pt-[1px]">
           <h1 className="font-bold text-[#1d1d1d] leading-none tracking-[0.04em] text-base">
             {designOwner?.displayName}
