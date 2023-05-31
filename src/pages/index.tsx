@@ -22,7 +22,7 @@ export default function Home() {
       .then((snapshot) => {
         let designList: Design[] = [];
         snapshot.forEach((doc) => {
-          designList.push(doc.data() as Design);
+          designList.push({ ...(doc.data() as Design), id: doc.id });
         });
         setDesignList(designList);
       })
