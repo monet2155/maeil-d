@@ -19,7 +19,7 @@ export default function ThemeListPage({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen px-16 py-8 bg-white">
-        <section className="">
+        <section>
           <table className="w-full text-left border-collapse table-fixed">
             <thead>
               <tr>
