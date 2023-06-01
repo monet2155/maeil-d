@@ -6,8 +6,8 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="flex flex-row bg-[#FCFCFC] border-t border-[#1d1d1d] min-h-[240px] items-center">
-      <section className="flex flex-col items-center flex-1 gap-6">
+    <footer className="flex flex-row bg-[#FCFCFC] border-t border-[#1d1d1d] min-h-[240px] items-center justify-around">
+      <section className="flex flex-col items-center gap-6">
         <h1 className="flex flex-row">
           <Image
             src={LogoNameSvg}
@@ -30,29 +30,39 @@ export default function Footer() {
           © 2023 로망난녀석들. All rights reserved.
         </h3>
       </section>
-      <section className="flex flex-col items-center flex-1 gap-[18px]">
-        <h1 className="font-extrabold leading-none tracking-[0.04em] text-base text-[#1d1d1d]">
-          COMPANY
-        </h1>
-        {/* <Link
+      <section className="flex flex-row items-center gap-32">
+        <section className="flex flex-col items-center flex-1 gap-[18px]">
+          <h1 className="font-extrabold leading-none tracking-[0.04em] text-base text-[#1d1d1d]">
+            COMPANY
+          </h1>
+          {/* <Link
           href="/"
           className="font-normal leading-none tracking-[0.04em] text-sm text-[#1d1d1d]"
         >
           서비스소개
         </Link> */}
-        <Link
-          href="/terms"
-          className="font-normal leading-none tracking-[0.04em] text-sm text-[#1d1d1d]"
-        >
-          이용약관
-        </Link>
-        <Link
-          href="https://plip.kr/html/78f76b2b-01ee-4d54-b724-9520a5d34a60.html"
-          target="_blank"
-          className="font-normal leading-none tracking-[0.04em] text-sm text-[#1d1d1d]"
-        >
-          개인정보처리방침
-        </Link>
+          <Link
+            href="/terms"
+            className="font-normal leading-none tracking-[0.04em] text-sm text-[#1d1d1d]"
+          >
+            이용약관
+          </Link>
+          <Link
+            href="https://plip.kr/html/78f76b2b-01ee-4d54-b724-9520a5d34a60.html"
+            target="_blank"
+            className="font-normal leading-none tracking-[0.04em] text-sm text-[#1d1d1d]"
+          >
+            개인정보처리방침
+          </Link>
+        </section>
+        <section className="flex flex-col items-center flex-1 gap-[18px]">
+          <h1 className="font-extrabold leading-none tracking-[0.04em] text-base text-[#1d1d1d]">
+            CONTACT
+          </h1>
+          <div className="font-normal leading-none tracking-[0.04em] text-sm text-[#1d1d1d]">
+            monet@romancebros.com
+          </div>
+        </section>
       </section>
     </footer>
   );
