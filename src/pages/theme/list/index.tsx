@@ -3,9 +3,12 @@ import Head from "next/head";
 import { getThemeList } from "@apis/themes";
 import { Theme } from "src/@types/theme";
 import ThemeListItem from "@components/ThemeListItem";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
-export default function ThemeListPage() {
-  const [themeList, setThemeList] = useState<Theme[]>([]);
+export default function ThemeListPage({
+  initialThemeList,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [themeList, setThemeList] = useState<Theme[]>(initialThemeList);
 
   useEffect(() => {
     getThemeList()
@@ -48,3 +51,20 @@ export default function ThemeListPage() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  initialThemeList: Theme[];
+}> = async () => {
+  const designList = await getThemeList();
+
+  const initialThemeList = designList.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  })) as Theme[];
+
+  return {
+    props: {
+      initialThemeList: JSON.parse(JSON.stringify(initialThemeList)),
+    },
+  };
+};
