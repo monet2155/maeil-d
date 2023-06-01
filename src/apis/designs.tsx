@@ -4,12 +4,12 @@ import {
   addDoc,
   collection,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
   onSnapshot,
   orderBy,
   query,
-  setDoc,
   where,
 } from "firebase/firestore";
 import { Design } from "src/@types/design";
@@ -41,6 +41,20 @@ export function getDesignListByThemeId(themeId: string) {
       where("isPublic", "==", true)
     )
   );
+}
+
+export async function getDesignCountByThemeId(
+  themeId: string
+): Promise<number> {
+  const count = await getCountFromServer(
+    query(
+      databaseRef,
+      where("themeId", "==", themeId),
+      where("isPublic", "==", true)
+    )
+  );
+
+  return count.data().count;
 }
 
 export function getDesignListByUserId(userId: string) {
