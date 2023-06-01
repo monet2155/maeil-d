@@ -1,49 +1,30 @@
 import { useState, useEffect } from "react";
-import Header from "@components/Header";
 import Head from "next/head";
 import { Theme } from "src/@types/theme";
 import { getThemeDetail } from "@apis/themes";
-import { useRouter } from "next/router";
 import { getDesignListByThemeId } from "@apis/designs";
 import { Design } from "src/@types/design";
 import Link from "next/link";
 import DesignItem from "@components/DesignItem";
-import ThemeCard from "@components/ThemeCard";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
-export default function ThemeDetailPage() {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const [currentTheme, setCurrentTheme] = useState<Theme | null>(null);
-  const [designs, setDesigns] = useState<Design[]>([]);
+export default function ThemeDetailPage({
+  initialDesignList,
+  currentTheme,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [designs, setDesigns] = useState<Design[]>(initialDesignList);
 
   const [uploaderCount, setUploaderCount] = useState(0);
   const [designCount, setDesignCount] = useState(0);
 
-  const getDesigns = () => {
-    if (!id) return;
-    getDesignListByThemeId(id.toString()).then((res) => {
-      const uploaderSet = new Set();
-      setDesigns(
-        res.docs.map((data: any) => {
-          uploaderSet.add(data.data().uploader);
-          return { ...data.data(), id: data.id };
-        })
-      );
-      setUploaderCount(uploaderSet.size);
-      setDesignCount(res.docs.length);
-    });
-  };
-
   useEffect(() => {
-    if (!id) return;
-    getThemeDetail(id.toString())
-      .then((res) => {
-        setCurrentTheme({ ...res.data(), id: res.id } as Theme);
-        getDesigns();
-      })
-      .catch((err) => console.log(err));
-  }, [id]);
+    const uploaderSet = new Set();
+    initialDesignList.forEach((data: any) => {
+      uploaderSet.add(data.uploader);
+    });
+    setUploaderCount(uploaderSet.size);
+    setDesignCount(initialDesignList.length);
+  }, [initialDesignList]);
 
   return (
     <>
@@ -53,20 +34,17 @@ export default function ThemeDetailPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="min-h-[1000px] flex flex-row pb-8">
-        <ThemeCard
-          selectedTheme={currentTheme}
-          uploaderCount={uploaderCount}
-          designCount={designCount}
-        />
+      <main className="min-h-screen px-16 py-8 bg-white">
         <section className="w-full ">
-          <h1 className="h-[55px] bg-[#1d1d1d] pl-6 flex items-center text-white font-bold text-2xl leading-none tracking-[0.04em]">
+          <h1 className="font-bold leading-none tracking-[0.04em] text-xl text-[#1d1d1d]">
             {currentTheme?.name}
           </h1>
-          <section className="p-6 h-[216px] max-h-[216px] flex flex-col">
+          <section className="flex flex-col pt-8">
             <desc className="text-base leading-none tracking-[0.04em] flex flex-1 text-[#1d1d1d]">
               {currentTheme?.description}
             </desc>
+          </section>
+          <section className="flex flex-row items-center justify-between pt-16">
             <div className="flex flex-row items-baseline gap-4">
               <h2 className="font-bold leading-none tracking-[0.04em] text-xl text-[#1d1d1d]">
                 현재 이 주제의 디자인 작업물
@@ -81,34 +59,47 @@ export default function ThemeDetailPage() {
             {currentTheme && (
               <Link
                 href={`/design/upload?theme=${currentTheme.id}`}
-                className="h-[56px] mt-6 font-bold text-white text-base leading-none tracking-[0.04em] flex items-center justify-center"
-                style={{
-                  background:
-                    "linear-gradient(90.51deg, #1D1D1D 0%, rgba(29, 29, 29, 0.81) 100%)",
-                }}
+                className="py-4 px-8 rounded-lg font-bold bg-[#1D1D1D] text-white text-base leading-none tracking-[0.04em] flex items-center justify-center"
               >
                 나도 디자인 해보기 &gt;
               </Link>
             )}
           </section>
-          <section className="relative h-[729px]">
-            <ul className=" grid grid-cols-2 p-6 border-t border-[#1d1d1d] gap-6 max-h-[729px] overflow-auto scrollbar-hide">
+          <section className="mt-8">
+            <ul
+              className="grid grid-cols-4 gap-9"
+              style={{
+                gridTemplateColumns: "repeat(auto-fill, minmax(336px, 1fr))",
+              }}
+            >
               {designs.map((design) => (
                 <DesignItem key={design.id} design={design} />
               ))}
             </ul>
-            {/* {designCount > 1 && (
-              <div
-                className="absolute bottom-0 w-full h-8"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(29, 29, 29, 0) 0%, rgba(29, 29, 29, 0.2) 100%)",
-                }}
-              />
-            )} */}
           </section>
         </section>
       </main>
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  currentTheme: Theme;
+  initialDesignList: Design[];
+}> = async ({ query }) => {
+  const currentTheme = await getThemeDetail(query.id as string);
+
+  const designList = await getDesignListByThemeId(query.id as string);
+
+  const initialDesignList = designList.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  })) as Design[];
+
+  return {
+    props: {
+      currentTheme: JSON.parse(JSON.stringify(currentTheme.data())),
+      initialDesignList: JSON.parse(JSON.stringify(initialDesignList)),
+    },
+  };
+};
