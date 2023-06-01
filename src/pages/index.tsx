@@ -1,25 +1,14 @@
 import { getDesignList } from "@apis/designs";
 import DesignItem from "@components/DesignItem";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Design } from "src/@types/design";
 
-export default function Home() {
-  const [designList, setDesignList] = useState<Design[]>([]);
-
-  useEffect(() => {
-    getDesignList("recent")
-      .then((snapshot) => {
-        let designList: Design[] = [];
-        snapshot.forEach((doc) => {
-          designList.push({ ...(doc.data() as Design), id: doc.id });
-        });
-        setDesignList(designList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+export default function Home({
+  initialDesignList,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [designList, setDesignList] = useState<Design[]>(initialDesignList);
 
   return (
     <>
@@ -44,3 +33,20 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  initialDesignList: Design[];
+}> = async () => {
+  const designList = await getDesignList("recent");
+
+  const initialDesignList = designList.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  })) as Design[];
+
+  return {
+    props: {
+      initialDesignList: JSON.parse(JSON.stringify(initialDesignList)),
+    },
+  };
+};
