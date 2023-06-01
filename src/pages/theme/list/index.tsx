@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import { getThemeList } from "@apis/themes";
 import { Theme } from "src/@types/theme";
@@ -9,18 +9,6 @@ export default function ThemeListPage({
   initialThemeList,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [themeList, setThemeList] = useState<Theme[]>(initialThemeList);
-
-  useEffect(() => {
-    getThemeList()
-      .then((res) => {
-        setThemeList(
-          res.docs.map((data: any) => {
-            return { ...data.data(), id: data.id };
-          })
-        );
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   return (
     <>
