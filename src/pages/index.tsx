@@ -1,18 +1,8 @@
-import {
-  getDesignList,
-  getDesignListByUserId,
-  subscribeDesignCount,
-} from "@apis/designs";
-import { getThemeList, subscribeThemeCount } from "@apis/themes";
+import { getDesignList } from "@apis/designs";
 import DesignItem from "@components/DesignItem";
-import MainThemeItem from "@components/MainThemeItem";
-import SignatureToken from "@components/SignatureToken";
-import cn from "classnames";
 import Head from "next/head";
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Design } from "src/@types/design";
-import { Theme } from "src/@types/theme";
 
 export default function Home() {
   const [designList, setDesignList] = useState<Design[]>([]);
