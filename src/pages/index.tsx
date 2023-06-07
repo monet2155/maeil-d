@@ -4,10 +4,16 @@ import Head from "next/head";
 import { useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Design } from "src/@types/design";
+import ReactModal from "react-modal";
+import DesignDetail from "@components/DesignDetail";
+import { useRouter } from "next/router";
+
+ReactModal.setAppElement("#__next");
 
 export default function Home({
   initialDesignList,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
   const [designList, setDesignList] = useState<Design[]>(initialDesignList);
 
   return (
@@ -18,6 +24,18 @@ export default function Home({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <ReactModal
+        isOpen={!!router.query.designId}
+        onRequestClose={() => router.push("/", undefined, { scroll: false })}
+        onAfterOpen={() => {
+          document.body.style.overflow = "hidden";
+        }}
+        onAfterClose={() => {
+          document.body.style.overflow = "unset";
+        }}
+      >
+        <DesignDetail />
+      </ReactModal>
       <main className="min-h-screen px-16 py-8 bg-white">
         <ul
           className="grid grid-flow-row grid-cols-4 gap-9 "

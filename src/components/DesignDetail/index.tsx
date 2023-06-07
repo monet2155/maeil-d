@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Header from "@components/Header";
 import Head from "next/head";
 import { Design } from "src/@types/design";
 import { useRouter } from "next/router";
@@ -9,24 +8,24 @@ import { User } from "src/@types/user";
 import { getUserDetail } from "@apis/users";
 import ModalReport from "@components/ModalReport";
 
-export default function DesignDetailPage() {
+export default function DesignDetail() {
   const [currentDesign, setCurrentDesign] = useState<Design | null>(null);
   const [designOwner, setDesignOwner] = useState<User | null>(null);
   const [isOpenReportModal, setIsOpenReportModal] = useState(false);
 
   const router = useRouter();
 
-  const { id } = router.query;
+  const { designId } = router.query;
 
   useEffect(() => {
-    if (!id) return;
+    if (!designId) return;
 
-    getDesignDetail(id.toString())
+    getDesignDetail(designId.toString())
       .then((res: any) => {
         setCurrentDesign({ ...res.data(), id: res.id });
       })
       .catch((err) => console.log(err));
-  }, [id]);
+  }, [designId]);
 
   useEffect(() => {
     if (!currentDesign) return;
@@ -41,7 +40,6 @@ export default function DesignDetailPage() {
   const onClickReport = () => {
     setIsOpenReportModal(true);
   };
-
   return (
     <>
       <Head>

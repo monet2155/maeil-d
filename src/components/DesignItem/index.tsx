@@ -27,7 +27,10 @@ export default function DesignItem({ design }: DesignItemProps) {
     <li>
       <Link
         className="flex flex-col gap-2"
-        href={`/design/detail/${design.id}`}
+        href={`/?designId=${design.id}`}
+        as={`/design/detail/${design.id}`}
+        scroll={false}
+        shallow={true}
       >
         <div className="relative w-full h-full overflow-hidden  pb-[75%]">
           <Image
